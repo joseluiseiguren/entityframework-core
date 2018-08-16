@@ -1,0 +1,8 @@
+Requisitos
+----------
+	* Tener instalado en la PC local: SqlServer Express
+
+
+Para crear los modelos a partir de una base de datos existente (ejecutar desde la consola)
+------------------------------------------------------------------------------------------
+	Scaffold-DbContext "Server=172.17.17.153,1433;Database=Diposits;User Id=diposits_usr;Password=GWO2kko0M3xQ;" Microsoft.EntityFrameworkCore.SqlServer -Tables Address,Action_Types -OutputDir Models
