@@ -5,10 +5,10 @@ namespace EntityFrameworkCore.Models
 {
     public partial class Movimientos
     {
-        public decimal Id { get; set; }
-        public decimal IdPersona { get; set; }
+        public int Id { get; set; }
+        public int IdPersona { get; set; }
         public DateTime Fecha { get; set; }
-        public decimal Estado { get; set; }
+        public decimal Importe { get; set; }
 
         public Personas IdPersonaNavigation { get; set; }
     }
