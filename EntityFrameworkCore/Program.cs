@@ -1,5 +1,7 @@
 ﻿using EntityFrameworkCore.Models;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 using System.Linq;
 using System.Transactions;
 
@@ -7,11 +9,20 @@ namespace entFrExample
 {
     class Program
     {
+        //to read configuration file
+        public static IConfiguration Configuration { get; set; }
+
         static void Main(string[] args)
         {
+            //configure configuration file
+            var builder = new ConfigurationBuilder()
+                                    .SetBasePath(Directory.GetCurrentDirectory())
+                                    .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
+
             Console.WriteLine("Starting...");
 
-            testefcoreContext.ConnectionString = "Server=localhost;Database=testefcore;User Id=sa;Password=123456;";
+            testefcoreContext.ConnectionString = Configuration["connectionString"];
 
             try
             {
@@ -91,6 +102,62 @@ namespace entFrExample
                     Console.WriteLine("Added Movement: {0}", m3.Id);
 
                     scope.Complete();
+                }
+
+                //select
+                Console.WriteLine("Selecting...");
+                using (var dbctx = new testefcoreContext())
+                {
+                    foreach (var item in dbctx.Personas.Where(p => p.Nombre.ToUpper().StartsWith("JO")).ToList())
+                    {
+                        dbctx.Personas.Remove(item);
+                        Console.WriteLine("Select Person Name Starts With 'JO': {0}", item.Nombre);
+                    }
+
+                    foreach (var item in dbctx.Movimientos.Where(p => p.Importe > 10m).ToList())
+                    {
+                        dbctx.Movimientos.Remove(item);
+                        Console.WriteLine("Select Movement Price more than $10: {0}", item.Importe);
+                    }
+                }
+
+                //update
+                Console.WriteLine("Updating...");
+                using (TransactionScope scope = new TransactionScope())
+                using (var dbctx = new testefcoreContext())
+                {
+                    //update persona
+                    var persona = dbctx.Personas.Where(p => p.Nombre.ToUpper().Equals("PEPE")).FirstOrDefault();
+                    persona.Nombre = "Jonas";
+
+                    dbctx.Personas.Update(persona);
+
+                    //update movements
+                    foreach (var item in dbctx.Movimientos.ToList())
+                    {
+                        item.Importe = item.Importe * 1.50m;
+                        dbctx.Movimientos.Update(item);                        
+                    }
+
+                    dbctx.SaveChanges();
+                    scope.Complete();
+                }
+
+                //select
+                Console.WriteLine("Selecting...");
+                using (var dbctx = new testefcoreContext())
+                {
+                    foreach (var item in dbctx.Personas.Where(p => p.Nombre.ToUpper().StartsWith("JO")).ToList())
+                    {
+                        dbctx.Personas.Remove(item);
+                        Console.WriteLine("Select Person Name Starts With 'JO': {0}", item.Nombre);
+                    }
+
+                    foreach (var item in dbctx.Movimientos.Where(p => p.Importe > 10m).ToList())
+                    {
+                        dbctx.Movimientos.Remove(item);
+                        Console.WriteLine("Select Movement Price more than $10: {0}", item.Importe);
+                    }
                 }
             }
             catch (Exception ex)
