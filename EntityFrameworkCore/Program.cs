@@ -110,13 +110,11 @@ namespace entFrExample
                 {
                     foreach (var item in dbctx.Personas.Where(p => p.Nombre.ToUpper().StartsWith("JO")).ToList())
                     {
-                        dbctx.Personas.Remove(item);
                         Console.WriteLine("Select Person Name Starts With 'JO': {0}", item.Nombre);
                     }
 
                     foreach (var item in dbctx.Movimientos.Where(p => p.Importe > 10m).ToList())
                     {
-                        dbctx.Movimientos.Remove(item);
                         Console.WriteLine("Select Movement Price more than $10: {0}", item.Importe);
                     }
                 }
@@ -149,13 +147,11 @@ namespace entFrExample
                 {
                     foreach (var item in dbctx.Personas.Where(p => p.Nombre.ToUpper().StartsWith("JO")).ToList())
                     {
-                        dbctx.Personas.Remove(item);
                         Console.WriteLine("Select Person Name Starts With 'JO': {0}", item.Nombre);
                     }
 
                     foreach (var item in dbctx.Movimientos.Where(p => p.Importe > 10m).ToList())
                     {
-                        dbctx.Movimientos.Remove(item);
                         Console.WriteLine("Select Movement Price more than $10: {0}", item.Importe);
                     }
                 }
