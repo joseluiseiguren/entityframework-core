@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EntityFrameworkCore.Models
 {
     public partial class testefcoreContext : DbContext
     {
         public static string ConnectionString;
+        private readonly MyLogger _efLogger = new MyLogger();
 
         public testefcoreContext()
         {
@@ -14,7 +13,7 @@ namespace EntityFrameworkCore.Models
 
         public testefcoreContext(DbContextOptions<testefcoreContext> options)
             : base(options)
-        {
+        {            
         }
 
         public virtual DbSet<Movimientos> Movimientos { get; set; }
@@ -25,6 +24,8 @@ namespace EntityFrameworkCore.Models
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(ConnectionString);
+                optionsBuilder.UseLoggerFactory(this._efLogger);
+                optionsBuilder.EnableSensitiveDataLogging(true);
             }
         }
 

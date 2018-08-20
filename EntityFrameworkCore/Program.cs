@@ -43,8 +43,10 @@ namespace entFrExample
                         Console.WriteLine("Deleted Movement: {0}", item.Id);
                     }
 
-                    dbctx.SaveChanges();
+                    int rowsAffected = dbctx.SaveChanges();
                     scope.Complete();
+
+                    Console.WriteLine($"Rows Affected: {rowsAffected.ToString()}");
                 }
 
                 //insert
@@ -68,9 +70,10 @@ namespace entFrExample
                     };
                     dbctx.Personas.Add(p2);
 
-                    dbctx.SaveChanges(); //to get the persons id's 
+                    int rowsAffected = dbctx.SaveChanges(); //to get the persons id's 
                     Console.WriteLine("Added Person: {0}", p1.Id);
                     Console.WriteLine("Added Person: {0}", p2.Id);
+                    Console.WriteLine($"Rows Affected: {rowsAffected.ToString()}");
 
                     Movimientos m1 = new Movimientos()
                     {
@@ -96,10 +99,11 @@ namespace entFrExample
                     };
                     dbctx.Movimientos.Add(m3);
 
-                    dbctx.SaveChanges();
+                    rowsAffected = dbctx.SaveChanges();
                     Console.WriteLine("Added Movement: {0}", m1.Id);
                     Console.WriteLine("Added Movement: {0}", m2.Id);
                     Console.WriteLine("Added Movement: {0}", m3.Id);
+                    Console.WriteLine($"Rows Affected: {rowsAffected.ToString()}");
 
                     scope.Complete();
                 }
@@ -137,7 +141,8 @@ namespace entFrExample
                         dbctx.Movimientos.Update(item);                        
                     }
 
-                    dbctx.SaveChanges();
+                    int rowsAffected = dbctx.SaveChanges();
+                    Console.WriteLine($"Rows Affected: {rowsAffected.ToString()}");
                     scope.Complete();
                 }
 
