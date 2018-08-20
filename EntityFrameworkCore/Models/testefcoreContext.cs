@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EntityFrameworkCore.Models
 {
@@ -25,7 +26,7 @@ namespace EntityFrameworkCore.Models
             {
                 optionsBuilder.UseSqlServer(ConnectionString);
                 optionsBuilder.UseLoggerFactory(this._efLogger);
-                optionsBuilder.EnableSensitiveDataLogging(true);
+                optionsBuilder.EnableSensitiveDataLogging(true); //con esto se loguean los parametros/valores de los query que se ejecutan                
             }
         }
 
