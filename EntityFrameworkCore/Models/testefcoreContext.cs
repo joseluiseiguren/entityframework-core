@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace EntityFrameworkCore.Models
 {
     public partial class testefcoreContext : DbContext
     {
         public static string ConnectionString;
-        private readonly MyLogger _efLogger = new MyLogger();
 
         public testefcoreContext()
         {
@@ -25,7 +23,7 @@ namespace EntityFrameworkCore.Models
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(ConnectionString);
-                optionsBuilder.UseLoggerFactory(this._efLogger);
+                optionsBuilder.UseLoggerFactory(new MyLogger());
                 optionsBuilder.EnableSensitiveDataLogging(true); //con esto se loguean los parametros/valores de los query que se ejecutan                
             }
         }
